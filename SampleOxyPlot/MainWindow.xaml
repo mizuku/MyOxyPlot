@@ -1,0 +1,91 @@
+﻿<Window x:Class="SampleOxyPlot.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SampleOxyPlot"
+        xmlns:oxy="http://oxyplot.org/wpf"
+        mc:Ignorable="d"
+        Title="MainWindow" DataContext="{StaticResource MainViewModel}" Height="350" Width="525">
+    <Grid>
+        <ScrollViewer Grid.RowSpan="3"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Visible">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Border BorderThickness="0" BorderBrush="Transparent" Width="850" HorizontalAlignment="Left">
+                    <oxy:Plot PlotMargins="25,20,10,5"
+                              Background="Azure"
+                              IsLegendVisible="True" LegendPlacement="Inside" LegendBackground="Blue" LegendPosition="LeftTop"
+                              DataContext="{Binding PlotItems}">
+                        <oxy:Plot.Axes>
+                            <oxy:CategoryAxis Key="XAxis" ItemsSource="{Binding}" Position="Top" LabelField="Date"
+                                              MajorGridlineStyle="Solid" TicklineColor="Gold"
+                                              />
+                            <oxy:LinearAxis Key="YAxis" Position="Left" Maximum="120" Minimum="0"
+                                            MajorGridlineStyle="Solid" MinorGridlineStyle="Solid" TicklineColor="Chocolate"
+                                            
+                                            />
+                        </oxy:Plot.Axes>
+                        <oxy:Plot.Series>
+                            <oxy:LineSeries ItemsSource="{Binding}"
+                                            Color="Red" XAxisKey="XAxis" YAxisKey="YAxis"
+                                            DataFieldX="Pos" DataFieldY="BloodPressure"  />
+                            <oxy:LineSeries ItemsSource="{Binding}"
+                                            Color="Blue" XAxisKey="XAxis" YAxisKey="YAxis"
+                                            DataFieldX="Pos" DataFieldY="BodyTemperature"  />
+                            <oxy:LineSeries ItemsSource="{Binding}"
+                                            Color="Green" XAxisKey="XAxis" YAxisKey="YAxis"
+                                            DataFieldX="Pos" DataFieldY="Pulse"  />
+                            <oxy:LineSeries ItemsSource="{Binding}"
+                                            Color="Purple" XAxisKey="XAxis" YAxisKey="YAxis"
+                                            DataFieldX="Pos" DataFieldY="Breathing" />
+                        </oxy:Plot.Series>
+                    </oxy:Plot>
+                </Border>
+                <Expander Grid.Row="1" ExpandDirection="Down" IsExpanded="True">
+                    <Border Grid.Row="1">
+                        <ItemsControl ItemsSource="{Binding PlotItems}" VerticalContentAlignment="Stretch" Margin="30,5,10,5">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type local:PlotItem}">
+                                    <Border BorderBrush="Gray" BorderThickness="1,1,0,0">
+                                        <Grid Width="200" >
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
+                                            <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                                                <TextBlock Text="{Binding BloodPressure}" TextAlignment="Center" VerticalAlignment="Center" />
+                                            </Border>
+                                            <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                                                <TextBlock Text="{Binding BodyTemperature}" TextAlignment="Center" VerticalAlignment="Center" />
+                                            </Border>
+                                            <Border Grid.Row="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                                                <TextBlock Text="{Binding Pulse}" TextAlignment="Center" VerticalAlignment="Center" />
+                                            </Border>
+                                            <Border Grid.Row="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                                                <TextBlock Text="{Binding Breathing}" TextAlignment="Center" VerticalAlignment="Center" />
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Border>
+                </Expander>
+            </Grid>
+        </ScrollViewer>
+
+
+    </Grid>
+</Window>
